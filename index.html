@@ -1,0 +1,995 @@
+
+<body>
+<html lang="uk">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Браслети "Рибий хвіст"</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+            font-family: 'Arial', sans-serif;
+
+        }
+
+        body {
+
+            background: #f5f5f5;
+
+            color: #333;
+
+            line-height: 1.6;
+
+        }
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 0 20px;
+
+        }
+
+        /* Шапка */
+
+        header {
+
+            background: linear-gradient(135deg, #667eea, #764ba2);
+
+            color: white;
+
+            padding: 1rem 0;
+
+            position: fixed;
+
+            width: 100%;
+
+            top: 0;
+
+            z-index: 1000;
+
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+        }
+
+        .header-content {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+        .logo h1 {
+
+            font-size: 1.5rem;
+
+        }
+
+        .cart-btn {
+
+            background: rgba(255,255,255,0.2);
+
+            border: 2px solid white;
+
+            color: white;
+
+            padding: 0.5rem 1rem;
+
+            border-radius: 25px;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 0.5rem;
+
+        }
+
+        .cart-badge {
+
+            background: #ff4757;
+
+            color: white;
+
+            border-radius: 50%;
+
+            width: 20px;
+
+            height: 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 0.8rem;
+
+        }
+
+        /* Главный баннер */
+
+        .hero {
+
+            background: linear-gradient(135deg, #ff6b6b, #ffa500);
+
+            color: white;
+
+            text-align: center;
+
+            padding: 100px 20px 60px;
+
+            margin-top: 60px;
+
+        }
+
+        .hero h2 {
+
+            font-size: 2.5rem;
+
+            margin-bottom: 1rem;
+
+        }
+
+        /* Товары */
+
+        .products {
+
+            padding: 3rem 0;
+
+        }
+
+        .section-title {
+
+            text-align: center;
+
+            font-size: 2rem;
+
+            margin-bottom: 2rem;
+
+            color: #333;
+
+        }
+
+        .products-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+            gap: 2rem;
+
+        }
+
+        .product-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+            transition: transform 0.3s;
+
+        }
+
+        .product-card:hover {
+
+            transform: translateY(-5px);
+
+        }
+
+        .product-image {
+
+            height: 200px;
+
+            background: linear-gradient(135deg, #667eea, #764ba2);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 4rem;
+
+            color: white;
+
+        }
+
+        .product-info {
+
+            padding: 1.5rem;
+
+        }
+
+        .product-name {
+
+            font-size: 1.3rem;
+
+            color: #333;
+
+            margin-bottom: 0.5rem;
+
+        }
+
+        .product-price {
+
+            font-size: 1.5rem;
+
+            color: #ff4757;
+
+            font-weight: bold;
+
+            margin-bottom: 1rem;
+
+        }
+
+        .add-btn {
+
+            width: 100%;
+
+            background: #667eea;
+
+            color: white;
+
+            border: none;
+
+            padding: 0.8rem;
+
+            border-radius: 8px;
+
+            font-size: 1rem;
+
+            cursor: pointer;
+
+            transition: background 0.3s;
+
+        }
+
+        .add-btn:hover {
+
+            background: #5a6fd8;
+
+        }
+
+        /* Корзина */
+
+        .cart-modal {
+
+            display: none;
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            background: rgba(0,0,0,0.5);
+
+            z-index: 2000;
+
+        }
+
+        .cart-content {
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            background: white;
+
+            width: 90%;
+
+            max-width: 500px;
+
+            border-radius: 15px;
+
+            max-height: 80vh;
+
+            overflow-y: auto;
+
+        }
+
+        .cart-header {
+
+            background: #667eea;
+
+            color: white;
+
+            padding: 1rem 1.5rem;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            border-radius: 15px 15px 0 0;
+
+        }
+
+        .close-btn {
+
+            background: none;
+
+            border: none;
+
+            color: white;
+
+            font-size: 1.5rem;
+
+            cursor: pointer;
+
+        }
+
+        .cart-body {
+
+            padding: 1.5rem;
+
+        }
+
+        .cart-item {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 1rem 0;
+
+            border-bottom: 1px solid #eee;
+
+        }
+
+        .cart-total {
+
+            text-align: center;
+
+            font-size: 1.3rem;
+
+            font-weight: bold;
+
+            margin: 1rem 0;
+
+            padding: 1rem;
+
+            background: #f8f9fa;
+
+            border-radius: 8px;
+
+        }
+
+        .checkout-btn {
+
+            width: 100%;
+
+            background: #4CAF50;
+
+            color: white;
+
+            border: none;
+
+            padding: 1rem;
+
+            border-radius: 8px;
+
+            font-size: 1.1rem;
+
+            cursor: pointer;
+
+            margin-top: 1rem;
+
+        }
+
+        /* Уведомления */
+
+        .notification {
+
+            position: fixed;
+
+            top: 20px;
+
+            right: 20px;
+
+            background: #4CAF50;
+
+            color: white;
+
+            padding: 1rem 1.5rem;
+
+            border-radius: 8px;
+
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+
+            z-index: 3000;
+
+            animation: slideIn 0.3s;
+
+        }
+
+        @keyframes slideIn {
+
+            from {
+
+                transform: translateX(100%);
+
+                opacity: 0;
+
+            }
+
+            to {
+
+                transform: translateX(0);
+
+                opacity: 1;
+
+            }
+
+        }
+
+        /* Адаптивность */
+
+        @media (max-width: 768px) {
+
+            .hero h2 {
+
+                font-size: 2rem;
+
+            }
+
+            
+
+            .products-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            
+
+            .header-content {
+
+                flex-direction: column;
+
+                gap: 1rem;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Шапка -->
+
+    <header>
+
+        <div class="container">
+
+            <div class="header-content">
+
+                <div class="logo">
+
+                    <h1>🎣 Браслети "Рибий хвіст"</h1>
+
+                </div>
+
+                <button class="cart-btn" onclick="openCart()">
+
+                    🛒 Кошик <span class="cart-badge" id="cartBadge">0</span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- Главный баннер -->
+
+    <section class="hero">
+
+        <div class="container">
+
+            <h2>Унікальні браслети ручної роботи</h2>
+
+            <p>Техніка плетіння "Рибий хвіст" - красиво та міцно!</p>
+
+        </div>
+
+    </section>
+
+    <!-- Товары -->
+
+    <section class="products">
+
+        <div class="container">
+
+            <h2 class="section-title">Наші браслети</h2>
+
+            <div class="products-grid" id="productsGrid">
+
+                <!-- Товары будут добавляться через JavaScript -->
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Корзина -->
+
+    <div class="cart-modal" id="cartModal">
+
+        <div class="cart-content">
+
+            <div class="cart-header">
+
+                <h3>🛒 Ваш кошик</h3>
+
+                <button class="close-btn" onclick="closeCart()">&times;</button>
+
+            </div>
+
+            <div class="cart-body" id="cartBody">
+
+                <!-- Товары в корзине -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        // Данные товаров
+
+        const products = [
+
+            {
+
+                id: 1,
+
+                name: "Морська хвиля",
+
+                price: 60,
+
+                icon: "🌊",
+
+                colors: 3,
+
+                description: "Синьо-блакитні переливи"
+
+            },
+
+            {
+
+                id: 2,
+
+                name: "Тропічна риба", 
+
+                price: 90,
+
+                icon: "🐠",
+
+                colors: 4,
+
+                description: "Яскраві кольори рифу"
+
+            },
+
+            {
+
+                id: 3,
+
+                name: "Золота рибка",
+
+                price: 90, 
+
+                icon: "⭐",
+
+                colors: 4,
+
+                description: "Золотаві відтінки"
+
+            },
+
+            {
+
+                id: 4,
+
+                name: "Веселка",
+
+                price: 110,
+
+                icon: "🌈", 
+
+                colors: 6,
+
+                description: "Усі кольори веселки"
+
+            },
+
+            {
+
+                id: 5,
+
+                name: "Фіолетова мрія",
+
+                price: 80,
+
+                icon: "💜",
+
+                colors: 3, 
+
+                description: "Ніжні фіолетові тони"
+
+            },
+
+            {
+
+                id: 6,
+
+                name: "Смарагдове море",
+
+                price: 100,
+
+                icon: "💚",
+
+                colors: 5,
+
+                description: "Зелені відтінки моря"
+
+            }
+
+        ];
+
+        let cart = [];
+
+        let orderNumber = 1001;
+
+        // Инициализация страницы
+
+        function init() {
+
+            renderProducts();
+
+            updateCartBadge();
+
+        }
+
+        // Показать товары
+
+        function renderProducts() {
+
+            const grid = document.getElementById('productsGrid');
+
+            grid.innerHTML = products.map(product => `
+
+                <div class="product-card">
+
+                    <div class="product-image">
+
+                        ${product.icon}
+
+                    </div>
+
+                    <div class="product-info">
+
+                        <h3 class="product-name">${product.name}</h3>
+
+                        <p>${product.description}</p>
+
+                        <p><small>${product.colors} кольори</small></p>
+
+                        <div class="product-price">${product.price} грн</div>
+
+                        <button class="add-btn" onclick="addToCart(${product.id})">
+
+                            Додати в кошик
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `).join('');
+
+        }
+
+        // Добавить в корзину
+
+        function addToCart(productId) {
+
+            const product = products.find(p => p.id === productId);
+
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+
+                existingItem.quantity += 1;
+
+            } else {
+
+                cart.push({
+
+                    ...product,
+
+                    quantity: 1
+
+                });
+
+            }
+
+            updateCartBadge();
+
+            showNotification('Товар додано в кошик!');
+
+        }
+
+        // Обновить счетчик корзины
+
+        function updateCartBadge() {
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            document.getElementById('cartBadge').textContent = totalItems;
+
+        }
+
+        // Открыть корзину
+
+        function openCart() {
+
+            renderCart();
+
+            document.getElementById('cartModal').style.display = 'block';
+
+        }
+
+        // Закрыть корзину
+
+        function closeCart() {
+
+            document.getElementById('cartModal').style.display = 'none';
+
+        }
+
+        // Показать корзину
+
+        function renderCart() {
+
+            const cartBody = document.getElementById('cartBody');
+
+            
+
+            if (cart.length === 0) {
+
+                cartBody.innerHTML = '<p style="text-align: center;">Кошик порожній</p>';
+
+                return;
+
+            }
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            
+
+            cartBody.innerHTML = `
+
+                ${cart.map(item => `
+
+                    <div class="cart-item">
+
+                        <div>
+
+                            <strong>${item.name}</strong>
+
+                            <br>
+
+                            <small>${item.quantity} × ${item.price} грн</small>
+
+                        </div>
+
+                        <div>
+
+                            <strong>${item.price * item.quantity} грн</strong>
+
+                            <br>
+
+                            <button onclick="removeFromCart(${item.id})" style="
+
+                                background: #ff4757;
+
+                                color: white;
+
+                                border: none;
+
+                                padding: 0.3rem 0.6rem;
+
+                                border-radius: 5px;
+
+                                cursor: pointer;
+
+                                margin-top: 0.3rem;
+
+                            ">Видалити</button>
+
+                        </div>
+
+                    </div>
+
+                `).join('')}
+
+                <div class="cart-total">
+
+                    Загальна сума: ${total} грн
+
+                </div>
+
+                <button class="checkout-btn" onclick="checkout()">
+
+                    Оформити замовлення
+
+                </button>
+
+            `;
+
+        }
+
+        // Удалить из корзины
+
+        function removeFromCart(productId) {
+
+            cart = cart.filter(item => item.id !== productId);
+
+            updateCartBadge();
+
+            renderCart();
+
+        }
+
+        // Оформление заказа
+
+        function checkout() {
+
+            if (cart.length === 0) {
+
+                showNotification('Кошик порожній!');
+
+                return;
+
+            }
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            const orderDetails = cart.map(item => 
+
+                `${item.name} - ${item.quantity} шт. × ${item.price} грн`
+
+            ).join('\n');
+
+            const emailBody = `
+
+Замовлення #${orderNumber}
+
+Дата: ${new Date().toLocaleDateString()}
+
+Товари:
+
+${orderDetails}
+
+Загальна сума: ${total} грн
+
+Контактні дані клієнта:
+
+(тут будуть дані з форми)
+
+---
+
+Браслети "Рибий хвіст"
+
+Телефон: +380 (67) 123-45-67
+
+            `.trim();
+
+            // Отправка на почту
+
+            const emailLink = `mailto:Gub.Sem.IT20@gmail.com?subject=Замовлення #${orderNumber}&body=${encodeURIComponent(emailBody)}`;
+
+            window.open(emailLink, '_blank');
+
+            showNotification('Замовлення відправлено на пошту!');
+
+            
+
+            // Очистка корзины
+
+            cart = [];
+
+            updateCartBadge();
+
+            closeCart();
+
+            orderNumber++;
+
+        }
+
+        // Показать уведомление
+
+        function showNotification(message) {
+
+            const notification = document.createElement('div');
+
+            notification.className = 'notification';
+
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+
+                notification.remove();
+
+            }, 3000);
+
+        }
+
+        // Закрытие корзины при клике вне ее
+
+        document.addEventListener('click', (e) => {
+
+            if (e.target.classList.contains('cart-modal')) {
+
+                closeCart();
+
+            }
+
+        });
+
+        // Запуск при загрузке страницы
+
+        document.addEventListener('DOMContentLoaded', init);
+
+    </script>
+
+</body>
+
+</html>
